@@ -1,0 +1,27 @@
+{
+  "name": "mvp_project",
+  "version": "1.0.0",
+  "description": "https://lucid.app/lucidchart/697dc1d0-813b-4faa-adcb-4bf7f54c361c/edit?viewport_loc=-187%2C-11%2C2219%2C1065%2C0_0&invitationId=inv_432522a5-afdf-4cdf-8408-b898456681eb",
+  "main": "config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raaffael/mvp_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raaffael/mvp_project/issues"
+  },
+  "homepage": "https://github.com/Raaffael/mvp_project#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "pg": "^8.8.0"
+  }
+}
