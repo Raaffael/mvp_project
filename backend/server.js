@@ -34,8 +34,8 @@ app.post('/registration', (req, res) => {
 app.patch('/registration', (req, res) => {
     patchARegistration(req, res);
 });
-app.delete('/registration', (req,res)=>{
-    dropAClass(req,res);
+app.delete('/registration', (req, res) => {
+    dropAClass(req, res);
 })
 app.get('*', (req, res) => {
     res.send('Check url');
@@ -50,7 +50,7 @@ app.listen(PORT, () => {
 async function getCatalog(req, res) {
     try {
         const text = 'SELECT * FROM course;';
-        queryReturn(res,req,text);
+        queryReturn(res, req, text);
     } catch (e) {
         console.error(e.stack);
     }
@@ -58,7 +58,7 @@ async function getCatalog(req, res) {
 async function getRegistration(req, res) {
     try {
         const text = 'SELECT * FROM registration;';
-        queryReturn(res,req,text);
+        queryReturn(req, res, text);
     } catch (e) {
         console.error(e.stack);
     }
@@ -68,7 +68,7 @@ async function addAClass(req, res) {
         const classToAdd = req.body;
         const text = 'INSERT INTO registration (date_registered,paid,course_id) VALUES ($1,$2,$3) RETURNING *;'
         const values = [classToAdd.date_registered, classToAdd.paid, classToAdd.course_id];
-        queryReturn(res,req,text,values);
+        queryReturn(req, res, text, values);
     } catch (e) {
         console.error(e.stack);
     }
@@ -80,31 +80,31 @@ async function patchARegistration(req, res) {
         let values = [];
         if (classToPatch.reg_id !== undefined && classToPatch.paid !== undefined) {
             text = 'UPDATE registration SET paid = $2 WHERE reg_id = $1 RETURNING *;'
-            values = [classToPatch.reg_id,classToPatch.paid];
+            values = [classToPatch.reg_id, classToPatch.paid];
         } else if (classToPatch.reg_id !== undefined && classToPatch.date_registered !== undefined) {
             text = 'UPDATE registration SET date_registered = $2 WHERE reg_id = $1 RETURNING *;'
-            values = [classToPatch.reg_id,classToPatch.date_registered];
+            values = [classToPatch.reg_id, classToPatch.date_registered];
         }
-        queryReturn(res,req,text,values);
+        queryReturn(req, res, text, values);
     } catch (e) {
         console.error(e.stack);
     }
 }
-async function dropAClass(req,res){
+async function dropAClass(req, res) {
     try {
         const classToDrop = req.body;
         let text = '';
-        if(classToDrop.reg_id!== undefined){
+        if (classToDrop.reg_id !== undefined) {
             text = 'DELETE FROM registration WHERE reg_id = $1 RETURNING *;';
         }
-        queryReturn(res,req,text,[classToDrop.reg_id]);
+        queryReturn(req, res, text, [classToDrop.reg_id]);
     } catch (e) {
         console.error(e.stack);
     }
 }
 
-async function queryReturn(res,req,text,values){
-    const result = await pool.query(text,values);
+async function queryReturn(req, res, text, values) {
+    const result = await pool.query(text, values);
     console.log(result.rows);
     res.send(result.rows);
 }
