@@ -30,10 +30,12 @@ Looks like this:
     PGPASSWORD=hWHWAr2tLBe5DCmRixzkcbhjbYKh02Fb psql -h dpg-cdmmtfun6mppacsvd6bg-a.oregon-postgres.render.com -U mvp_db_6e1s_user mvp_db_6e1s
 
 Then open a docker container and Run it
-EXAMPLE : jonathan@DESKTOP-8IV1IMO:~$ docker run --rm --name pg-docker -e               POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
+EXAMPLE : jonathan@DESKTOP-8IV1IMO:~$ docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
 //c25f345df8231e4da00dd645217b2f85b6f5735e27e3c8a735d2680be378a62f
 
 jonathan@DESKTOP-8IV1IMO:~$ docker exec -it c bash
+
+Then run the psql command
 root@c25f345df823:/# PGPASSWORD=hWHWAr2tLBe5DCmRixzkcbhjbYKh02Fb psql -h dpg-cdmmtfun6mppacsvd6bg-a.oregon-postgres.render.com -U mvp_db_6e1s_user mvp_db_6e1s
 
 //psql (15.0 (Debian 15.0-1.pgdg110+1))
@@ -42,10 +44,17 @@ root@c25f345df823:/# PGPASSWORD=hWHWAr2tLBe5DCmRixzkcbhjbYKh02Fb psql -h dpg-cdm
 
 mvp_db_6e1s=>
 
-# Render Steps
+# Render Steps for Backend
 -create and name database ex: school_db
 -don't need to specify username/password,etc. just the database name
 -save external database URL //this will be used for the POSTGRES_CONNECTION_STRING environmental variable in the school-api-server
 
 -create school-api-server (Web Service)
 -set root directory to file containing server.js
+
+# Render steps for frontend
+-Create new Static Site
+-for the settings
+    -set publish directory to the folder containing the index.html file
+    -leave everything else blank
+    -don't forget the app.js server that launches the static site

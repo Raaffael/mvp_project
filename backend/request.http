@@ -1,0 +1,48 @@
+
+### WORKS
+GET   http://localhost:3001/
+Content-Type: application/json
+### WORKS
+GET   http://localhost:3001/course-catalog
+Content-Type: application/json
+
+### WORKS
+GET   http://localhost:3001/registration
+Content-Type: application/json
+
+### WORKS
+POST  http://localhost:3001/registration
+Content-Type: application/json
+
+{
+    "date_registered":"2022-11-14",
+    "course_id":9,
+    "paid":false
+}
+
+### WORKS
+PATCH  http://localhost:3001/registration
+Content-Type: application/json
+
+{
+    "reg_id":6,
+    "paid":true
+}
+### WORKS
+
+PATCH  http://localhost:3001/registration
+Content-Type: application/json
+
+{
+    "reg_id":6,
+    "date_registered":"2022-11-13"
+}
+
+### WORKS
+
+DELETE   http://localhost:3001/registration
+Content-Type: application/json
+
+{
+    "reg_id":6
+}
