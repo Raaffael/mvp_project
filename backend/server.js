@@ -1,6 +1,7 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
+const { query } = require('express');
 const app = express()
 app.use(cors());
 app.use(express.json());
@@ -48,18 +49,16 @@ app.listen(PORT, () => {
 
 async function getCatalog(req, res) {
     try {
-        const result = await pool.query('SELECT * FROM course;');
-        console.log(result.rows);
-        res.send(result.rows);
+        const text = 'SELECT * FROM course;';
+        queryReturn(res,req,text);
     } catch (e) {
         console.error(e.stack);
     }
 }
 async function getRegistration(req, res) {
     try {
-        const result = await pool.query('SELECT * FROM registration;');
-        console.log(result.rows);
-        res.send(result.rows);
+        const text = 'SELECT * FROM registration;';
+        queryReturn(res,req,text);
     } catch (e) {
         console.error(e.stack);
     }
@@ -69,9 +68,7 @@ async function addAClass(req, res) {
         const classToAdd = req.body;
         const text = 'INSERT INTO registration (date_registered,paid,course_id) VALUES ($1,$2,$3) RETURNING *;'
         const values = [classToAdd.date_registered, classToAdd.paid, classToAdd.course_id];
-        const result = await pool.query(text, values);
-        console.log(result.rows);
-        res.send(result.rows);
+        queryReturn(res,req,text,values);
     } catch (e) {
         console.error(e.stack);
     }
@@ -88,9 +85,7 @@ async function patchARegistration(req, res) {
             text = 'UPDATE registration SET date_registered = $2 WHERE reg_id = $1 RETURNING *;'
             values = [classToPatch.reg_id,classToPatch.date_registered];
         }
-        const result = await pool.query(text,values);
-        console.log(result.rows);
-        res.send(result.rows);
+        queryReturn(res,req,text,values);
     } catch (e) {
         console.error(e.stack);
     }
@@ -102,10 +97,14 @@ async function dropAClass(req,res){
         if(classToDrop.reg_id!== undefined){
             text = 'DELETE FROM registration WHERE reg_id = $1 RETURNING *;';
         }
-        const result = await pool.query(text,[classToDrop.reg_id]);
-        console.log(result.rows);
-        res.send(result.rows);
+        queryReturn(res,req,text,[classToDrop.reg_id]);
     } catch (e) {
         console.error(e.stack);
     }
+}
+
+async function queryReturn(res,req,text,values){
+    const result = await pool.query(text,values);
+    console.log(result.rows);
+    res.send(result.rows);
 }
