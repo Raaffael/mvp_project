@@ -15,7 +15,6 @@ POST  http://localhost:3001/registration
 Content-Type: application/json
 
 {
-    "date_registered":"2022-11-14",
     "course_id":9,
     "paid":false
 }
