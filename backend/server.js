@@ -56,8 +56,10 @@ async function getCatalog(req, res) {
 }
 async function getRegistration(req, res) {
     try {
-        const text = 'SELECT * FROM registration;';
-        queryReturn(req, res, text);
+        const text = 'SELECT registration.reg_id,registration.paid,course.name,registration.course_id, TO_CHAR(date_registered, $1) AS date_registered FROM registration INNER JOIN course ON registration.course_ID = course.course_id;';
+        //SELECT registration.reg_id,registration.paid,course.name, TO_CHAR(date_registered, 'Mon dd, yyyy') AS date_registered FROM registration INNER JOIN course ON registration.course_id = course.course_id;
+        const values = ['Mon dd, yyyy'];
+        queryReturn(req, res, text,values);
     } catch (e) {
         console.error(e.stack);
     }
@@ -65,8 +67,9 @@ async function getRegistration(req, res) {
 async function addAClass(req, res) {
     try {
         const classToAdd = req.body;
-        const text = 'INSERT INTO registration (date_registered,paid,course_id) VALUES ($1,$2,$3) RETURNING *;'
-        const values = [classToAdd.date_registered, classToAdd.paid, classToAdd.course_id];
+        const text = 'INSERT INTO registration (date_registered,paid,course_id) VALUES (NOW(),$1,$2) RETURNING *;'
+        //INSERT INTO registration (date_registered,paid,course_id) VALUES (NOW(),true,9) RETURNING *;
+        const values = [classToAdd.paid, classToAdd.course_id];
         queryReturn(req, res, text, values);
     } catch (e) {
         console.error(e.stack);
