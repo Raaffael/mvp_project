@@ -56,7 +56,10 @@ async function getCatalog(req, res) {
 }
 async function getRegistration(req, res) {
     try {
-        const text = 'SELECT registration.reg_id,registration.paid,course.name,registration.course_id, TO_CHAR(date_registered, $1) AS date_registered FROM registration INNER JOIN course ON registration.course_ID = course.course_id;';
+        const text = 'SELECT registration.reg_id,registration.paid,course.name,registration.course_id, '+
+        'TO_CHAR(date_registered, $1) AS date_registered FROM registration '+
+        'INNER JOIN course ON registration.course_ID = course.course_id '+
+        'ORDER BY registration.reg_id ASC;';
         //SELECT registration.reg_id,registration.paid,course.name, TO_CHAR(date_registered, 'Mon dd, yyyy') AS date_registered FROM registration INNER JOIN course ON registration.course_id = course.course_id;
         const values = ['Mon dd, yyyy'];
         queryReturn(req, res, text,values);
