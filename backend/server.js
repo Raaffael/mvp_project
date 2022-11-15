@@ -1,7 +1,6 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
-const { query } = require('express');
 const app = express()
 app.use(cors());
 app.use(express.json());
@@ -50,7 +49,7 @@ app.listen(PORT, () => {
 async function getCatalog(req, res) {
     try {
         const text = 'SELECT * FROM course;';
-        queryReturn(res, req, text);
+        queryReturn(req, res, text);
     } catch (e) {
         console.error(e.stack);
     }
