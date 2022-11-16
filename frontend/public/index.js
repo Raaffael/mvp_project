@@ -1,7 +1,7 @@
 
 
-//const ENV = "production"; //uses render
-const ENV = "dev";  //uses local node server
+const ENV = "production"; //uses render
+//const ENV = "dev";  //uses local node server
 
 let URL = ENV == "dev" ? "http://localhost:3001" : "https://mvp-api-server.onrender.com";
 
